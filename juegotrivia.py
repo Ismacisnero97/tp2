@@ -108,7 +108,7 @@ def mostrar_pregunta(p):
 
     # Validar entrada
     while not eleccion.isdigit() or not (1 <= int(eleccion) <= len(opciones)):
-        eleccion = input("Opción inválida. Ingresa un número válido: ")
+        eleccion = input("Opción inválida. Ingresa un número válido: ") # Repetir el ciclo SI NO es un dígito O SI (una vez convertido a número) está fuera del rango válido.
 
     seleccion = opciones[int(eleccion) - 1]
 
