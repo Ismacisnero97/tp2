@@ -46,7 +46,7 @@ def menu_principal():
         elif opcion == "2":
             mostrar_resultados()
         elif opcion == "3":
-            print("¡Gracias por jugar! Hasta pronto.")
+            print("Gracias por jugar")
         else:
             print("Opción inválida. Intenta de nuevo.")
 
@@ -81,7 +81,7 @@ def jugar_trivia():
 
     # Si menos del 50%, volver a jugar usando recursividad
     if porcentaje < 50:
-        print("\nNo alcanzaste el 50%. ¡Vuelve a intentarlo!\n")
+        print("\nNo alcanzaste el 50%. Intentalo denuevo\n")
         jugar_trivia()  # Llamada recursiva
 
 def mostrar_pregunta(p):
@@ -92,24 +92,32 @@ def mostrar_pregunta(p):
     """
     pregunta = p[0]
     respuesta_correcta = p[1]
-    respuestas_incorrectas = p[2]
+    respuestas_incorrectas = p[2:]  # el resto de elementos de la tupla
 
-    opciones = respuestas_incorrectas + [respuesta_correcta]
+    # Armar lista de opciones
+    opciones = [respuesta_correcta] + list(respuestas_incorrectas)
     random.shuffle(opciones)
-    print(f"\nPregunta: {pregunta}")
-    for i, opcion in enumerate (opciones, 1):
-        print(f"{i}. {opcion}")
 
-    respuesta = int(input("Tu respuesta es: "))
-    if 1 <= respuesta <= len(opciones):
-        if opciones [respuesta - 1] == respuesta_correcta:
-            print ("La respuesta es correcta!")
-            return True
-        else:
-            print (f"Incorrecto, la respuesta correcta era: {respuesta_correcta}")
-            return False
+    # Mostrar enunciado
+    print(f"\n{pregunta}")
+    for i, op in enumerate(opciones, 1):
+        print(f"{i}. {op}")
+    
+    # Pedir respuesta
+    eleccion = input("Tu respuesta (número): ")
+
+    # Validar entrada
+    while not eleccion.isdigit() or not (1 <= int(eleccion) <= len(opciones)):
+        eleccion = input("Opción inválida. Ingresa un número válido: ")
+
+    seleccion = opciones[int(eleccion) - 1]
+
+    # Verificar respuesta
+    if seleccion == respuesta_correcta:
+        print("Correcto!")
+        return True
     else:
-        print("Error en la opcion")
+        print(f"Incorrecto. La respuesta correcta era: {respuesta_correcta}")
         return False
 
 def calcular_porcentaje(aciertos, total):
