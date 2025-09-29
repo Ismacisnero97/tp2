@@ -90,6 +90,27 @@ def mostrar_pregunta(p):
     Muestra la pregunta y sus opciones mezcladas.
     Devuelve True si el usuario acierta, False si se equivoca.
     """
+    pregunta = p[0]
+    respuesta_correcta = p[1]
+    respuestas_incorrectas = p[2]
+
+    opciones = respuestas_incorrectas + [respuesta_correcta]
+    random.shuffle(opciones)
+    print(f"\nPregunta: {pregunta}")
+    for i, opcion in enumerate (opciones, 1):
+        print(f"{i}. {opcion}")
+
+    respuesta = int(input("Tu respuesta es: "))
+    if 1 <= respuesta <= len(opciones):
+        if opciones [respuesta - 1] == respuesta_correcta:
+            print ("La respuesta es correcta!")
+            return True
+        else:
+            print (f"Incorrecto, la respuesta correcta era: {respuesta_correcta}")
+            return False
+    else:
+        print("Error en la opcion")
+        return False
 
 def calcular_porcentaje(aciertos, total):
     """
@@ -103,6 +124,23 @@ def mostrar_resultados():
     - Listado de resultados
     - Máximo, mínimo y promedio de aciertos
     """
+    if not Resultados:
+        print("\nNo hay resultados guardados todavía.")
+        return
+
+    print("\n--- RESULTADOS ---")
+    for i, (a, e, p) in enumerate(Resultados, 1):
+        print(f"Partida {i}:  {a} |  {e} |  {p:.2f}%")
+
+    # Cálculos estadísticos
+    aciertos = [r[0] for r in Resultados]
+    maximo = max(aciertos)
+    minimo = min(aciertos)
+    promedio = sum(aciertos) / len(aciertos)
+
+    print(f"\nMáximo aciertos: {maximo}")
+    print(f"Mínimo aciertos: {minimo}")
+    print(f"Promedio de aciertos: {promedio:.2f}")
 
 # -----------------------------
 # PROGRAMA PRINCIPAL
